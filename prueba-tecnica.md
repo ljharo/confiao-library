@@ -35,6 +35,8 @@ la adquisición de libros.
     campos esenciales: título, autor(es), año de publicación y el ID de Open
     Library.
 
+  status: listo
+
 - **Añadir un Libro a la Biblioteca Personal**
   **Ruta:** `POST /api/my-library/books`
   **Ejemplo de Request Body:**
@@ -55,6 +57,8 @@ la adquisición de libros.
     año de publicación, precio y notas (opcional).
   - Valida que el libro no se haya agregado previamente.
 
+  status: listo
+
 - **Obtener Todos los Libros de la Biblioteca Personal**
   **Ruta:** `GET /api/my-library/books`
   **Descripción:**
@@ -62,11 +66,15 @@ la adquisición de libros.
   - Devuelve una lista completa de todos los libros almacenados en la
     base de datos local.
 
+  status: listo
+
 - **Obtener los Detalles de un Libro**
   **Ruta:** `GET /api/my-library/books/:localId`
   **Descripción:**
 
   - Recupera el detalle específico de un libro usando su ID local.
+
+  status: listo
 
 - **Actualizar las Notas de un Libro**
   **Ruta:** `PUT /api/my-library/books/:localId`
@@ -95,14 +103,17 @@ la adquisición de libros.
   **Agregar Autor:**
   **Ruta:** `POST /api/my-library/authors`
   **Ejemplo de Request Body:**
+
   ```json
   {
     "name": "Stephen King",
     "country": "USA"
   }
   ```
+
   **Obtener Autores:**
   **Ruta:** `GET /api/my-library/authors`
+
   - También se puede implementar: `GET /api/my-library/authors/:localId`
     para buscar un autor específico.
 
