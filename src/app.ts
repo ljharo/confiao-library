@@ -2,6 +2,7 @@ import errorHandler from "./middleware/errorHandler";
 import authRouter from "./routes/auth.routes";
 import bookRouter from "./routes/books.routes";
 import personalLibraryRouter from "./routes/personalLibrary.routes";
+import authorRouter from "./routes/author.routes";
 import express from "express";
 import dotenv from "dotenv";
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRouter);
 app.use("/api/books", bookRouter);
 app.use("/api/my-library", personalLibraryRouter);
+app.use("/api/authors", authorRouter);
 
 // Error handler
 app.use(errorHandler);

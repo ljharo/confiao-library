@@ -91,6 +91,8 @@ la adquisición de libros.
   - Permite modificar solo las notas de un libro ya añadido. El precio
     no debe ser modificable.
 
+  status: listo
+
 - **Eliminar un Libro**
   **Ruta:** `DELETE /api/my-library/books/:localId`
   **Descripción:**
@@ -98,6 +100,8 @@ la adquisición de libros.
   - Elimina el libro de la colección local. En este desafío, no se
     requiere verificar la existencia de pagos pendientes, lo que simplifica
     el proceso.
+
+  status: listo
 
 - **Gestión de Autores**
   **Agregar Autor:**
@@ -111,11 +115,15 @@ la adquisición de libros.
   }
   ```
 
+  status: listo
+
   **Obtener Autores:**
   **Ruta:** `GET /api/my-library/authors`
 
   - También se puede implementar: `GET /api/my-library/authors/:localId`
     para buscar un autor específico.
+
+  status: listo
 
 ---
 
