@@ -43,7 +43,7 @@ Confiao Library es una API RESTful desarrollada con Node.js, Express y Prisma qu
 Clonar el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/confiao-library.git
+git clone https://github.com/ljharo/confiao-library.git
 cd confiao-library
 ```
 
