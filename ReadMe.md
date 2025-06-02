@@ -4,9 +4,9 @@
 
 Confiao Library es una API RESTful desarrollada con Node.js, Express y Prisma que permite a los usuarios gestionar su biblioteca personal de libros, integrando con la Open Library API para obtener metadatos de libros.
 
-# Características Principales
+## Características Principales
 
--✅ Autenticación JWT
+- ✅ Autenticación JWT
 
 - 📖 Gestión de libros personales
 
@@ -42,28 +42,39 @@ Confiao Library es una API RESTful desarrollada con Node.js, Express y Prisma qu
 
 Clonar el repositorio:
 
-bash
+```bash
 git clone https://github.com/tu-usuario/confiao-library.git
 cd confiao-library
+```
+
 Instalar dependencias:
 
-bash
+```bash
 npm install
-Configurar variables de entorno:
+```
 
-bash
-cp .env.example .env
+Configurar variables de entorno:
 Editar el archivo .env con tus credenciales.
+
+```bash
+cp .env.example .env
+```
 
 Ejecutar migraciones de Prisma:
 
-bash
+```bash
 npx prisma migrate dev
+```
+
 Iniciar el servidor:
 
-bash
+```bash
 npm run dev
+```
+
 Estructura del Proyecto
+
+```bash
 confiao-library/
 ├── prisma/
 │ └── schema.prisma # Esquema de la base de datos
@@ -82,6 +93,7 @@ confiao-library/
 │ └── server.ts # Inicio del servidor
 ├── .env.example # Ejemplo de variables de entorno
 └── package.json
+```
 
 ## Endpoints Principales
 
@@ -124,7 +136,7 @@ confiao-library/
 Variable Descripción Ejemplo
 
 - PORT Puerto del servidor 3000
-  -DATABASE_URL URL de conexión a PostgreSQL postgresql://user:password@localhost:5432/confiao-library
+- DATABASE_URL URL de conexión a PostgreSQL postgresql://user:password@localhost:5432/confiao-library
 - JWT_SECRET Secreto para JWT tu_super_secreto
 - JWT_EXPIRES_IN Tiempo de expiración del token 1h
 
@@ -157,4 +169,4 @@ Este proyecto está bajo la licencia MIT. Ver el archivo LICENSE para más detal
 
 ## Contacto
 
-Para preguntas o sugerencias, contacta al equipo de desarrollo en haroomg@gmail.com
+Para preguntas o sugerencias, contacta al equipo de desarrollo en <haroomg@gmail.com>
