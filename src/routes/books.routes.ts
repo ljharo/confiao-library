@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { searchBooksHandler } from "../controller/books.controller";
+import { BookController } from "../controller/books.controller";
+import { authenticate } from "../middleware/auth.middleware";
 
 const router = Router();
+const controller = new BookController();
 
-router.get("/search/:query", searchBooksHandler);
+router.use(authenticate);
+
+router.get("/search/:query", controller.searchBooksHandler);
 
 export default router;

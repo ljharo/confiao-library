@@ -16,12 +16,12 @@ interface JwtPayload {
   [key: string]: any;
 }
 
-export const generateToken = (payload: JwtPayload): string => {
+export function generateToken(payload: JwtPayload): string {
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   } as jwt.SignOptions);
-};
+}
 
-export const verifyToken = (token: string): string | jwt.JwtPayload => {
+export function verifyToken(token: string): string | jwt.JwtPayload {
   return jwt.verify(token, JWT_SECRET);
-};
+}

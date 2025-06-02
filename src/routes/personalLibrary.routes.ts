@@ -1,23 +1,16 @@
 import { Router } from "express";
-import {
-  addBook,
-  getBooks,
-  getBookDetails,
-  updateNotes,
-  deleteBook,
-} from "../controller/personalLibrary.controller";
+import { PersonalLibraryController } from "../controller/personalLibrary.controller";
 import { authenticate } from "../middleware/auth.middleware";
 
 const router = Router();
+const controller = new PersonalLibraryController();
 
-// Todas las rutas requieren autenticación
-router.use(authenticate as any);
+router.use(authenticate);
 
-// Añadir libro a la biblioteca personal
-router.post("/books", addBook);
-router.get("/books", getBooks);
-router.get("/books/:localId", getBookDetails);
-router.put("/books/:localId", updateNotes);
-router.delete("/books/:localId", deleteBook);
+router.post("/books", controller.addBook);
+router.get("/books", controller.getBooks);
+router.get("/books/:localId", controller.getBookDetails);
+router.put("/books/:localId", controller.updateNotes);
+router.delete("/books/:localId", controller.deleteBook);
 
 export default router;

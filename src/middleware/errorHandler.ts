@@ -1,24 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 
-const errorHandler = (
+export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  // Obtener la línea específica donde ocurrió el error
+) {
   const getErrorLine = (error: Error): string => {
     if (!error.stack) return "No stack trace available";
 
-    // Dividir el stack trace por líneas
     const stackLines = error.stack.split("\n");
 
-    // La línea relevante suele ser la segunda (índice 1)
     if (stackLines.length > 1) {
-      // Extraer la parte importante de la línea
       const relevantLine = stackLines[1].trim();
 
-      // Expresión regular para extraer archivo y línea
       const match = relevantLine.match(/at (.+) \((.+):(\d+):(\d+)\)/);
 
       if (match) {
@@ -47,6 +42,4 @@ const errorHandler = (
       location: errorLocation,
     }),
   });
-};
-
-export default errorHandler;
+}

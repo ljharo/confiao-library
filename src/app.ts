@@ -1,11 +1,13 @@
-import errorHandler from "./middleware/errorHandler";
-import authRouter from "./routes/auth.routes";
-import bookRouter from "./routes/books.routes";
-import personalLibraryRouter from "./routes/personalLibrary.routes";
-import authorRouter from "./routes/author.routes";
-import installmentRouter from "./routes/installment.routes";
+import { errorHandler } from "./middleware/errorHandler";
 import express from "express";
 import dotenv from "dotenv";
+
+// import routes
+import authRouter from "./routes/auth.routes";
+import bookRouter from "./routes/books.routes";
+import authorRouter from "./routes/author.routes";
+import installmentRouter from "./routes/installment.routes";
+import personalLibraryRouter from "./routes/personalLibrary.routes";
 
 dotenv.config();
 

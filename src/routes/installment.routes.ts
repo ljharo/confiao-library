@@ -1,15 +1,13 @@
 import { Router } from "express";
-import {
-  createBookInstallments,
-  getBookInstallments,
-} from "../controller/installment.controller";
+import { InstallmentController } from "../controller/installment.controller";
 import { authenticate } from "../middleware/auth.middleware";
 
 const router = Router();
+const controller = new InstallmentController();
 
-router.use(authenticate as any);
+router.use(authenticate);
 
-router.post("/books/:localId/installments", createBookInstallments);
-router.get("/books/:localId/installments", getBookInstallments);
+router.post("/books/:localId/installments", controller.createBookInstallments);
+router.get("/books/:localId/installments", controller.getBookInstallments);
 
 export default router;

@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { register, login, logout } from "../controller/auth.controller";
+import { AuthController } from "../controller/auth.controller";
 
 const router = Router();
+const controller = new AuthController();
 
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
+router.post("/register", controller.register);
+router.post("/login", controller.login);
+router.post("/logout", controller.logout);
 
 export default router;
