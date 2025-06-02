@@ -27,8 +27,11 @@ model PersonalBook {
   coverUrl     String?
   author        String?
   publishYear   Int?
-  price         Float?
   notes         String?
+  price         Float?
+  numberOfInstallments Int?
+  installmentAmount   Float?
+  installments       Json?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
