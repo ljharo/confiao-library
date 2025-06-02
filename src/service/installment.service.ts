@@ -2,19 +2,18 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Definimos la interfaz para el plan de cuotas
 interface InstallmentPlan {
   number: number;
   amount: number;
   status: "pending" | "paid" | "overdue";
-  dueDate?: string; // Cambiamos Date por string para serialización
+  dueDate?: string;
 }
 
-export const createInstallmentPlan = async (
+export async function createInstallmentPlan(
   bookId: number,
   userId: number,
   numberOfInstallments: number
-) => {
+) {
   const book = await prisma.personalBook.findUnique({
     where: {
       id: bookId,
@@ -71,9 +70,9 @@ export const createInstallmentPlan = async (
       installments: true,
     },
   });
-};
+}
 
-export const getInstallmentPlan = async (bookId: number, userId: number) => {
+export async function getInstallmentPlan(bookId: number, userId: number) {
   const book = await prisma.personalBook.findUnique({
     where: {
       id: bookId,
@@ -103,4 +102,4 @@ export const getInstallmentPlan = async (bookId: number, userId: number) => {
     ...book,
     installments,
   };
-};
+}

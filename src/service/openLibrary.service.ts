@@ -1,7 +1,4 @@
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 interface Book {
   title: string;
@@ -11,7 +8,14 @@ interface Book {
   openLibraryId: string;
 }
 
-export const searchBooks = async (query: string): Promise<Book[]> => {
+interface BookMetadata {
+  title: string;
+  authors?: string[];
+  publishYear?: number;
+  coverUrl?: string;
+}
+
+export async function searchBooks(query: string): Promise<Book[]> {
   try {
     const response = await axios.get(
       `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
@@ -30,18 +34,11 @@ export const searchBooks = async (query: string): Promise<Book[]> => {
     console.error("Error searching books:", error);
     throw new Error("Failed to fetch books from Open Library");
   }
-};
-
-interface BookMetadata {
-  title: string;
-  authors?: string[];
-  publishYear?: number;
-  coverUrl?: string;
 }
 
-export const getBookMetadata = async (
+export async function getBookMetadata(
   openLibraryId: string
-): Promise<BookMetadata> => {
+): Promise<BookMetadata> {
   try {
     const response = await axios.get(
       `https://openlibrary.org/works/${openLibraryId}.json`
@@ -62,4 +59,4 @@ export const getBookMetadata = async (
     console.error("Error fetching book metadata:", error);
     throw new Error("Failed to fetch book details from Open Library");
   }
-};
+}

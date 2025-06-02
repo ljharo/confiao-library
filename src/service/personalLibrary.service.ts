@@ -10,12 +10,12 @@ interface AddBookParams {
   notes?: string;
 }
 
-export const addBookToLibrary = async ({
+export async function addBookToLibrary({
   userId,
   openLibraryId,
   price,
   notes,
-}: AddBookParams) => {
+}: AddBookParams) {
   // Verificar si el libro ya existe
   const existingBook = await prisma.personalBook.findFirst({
     where: {
@@ -55,9 +55,9 @@ export const addBookToLibrary = async ({
       createdAt: true,
     },
   });
-};
+}
 
-export const getAllPersonalBooks = async (userId: number) => {
+export async function getAllPersonalBooks(userId: number) {
   return await prisma.personalBook.findMany({
     where: { userId },
     select: {
@@ -73,12 +73,9 @@ export const getAllPersonalBooks = async (userId: number) => {
       createdAt: "desc",
     },
   });
-};
+}
 
-export const getPersonalBookDetails = async (
-  userId: number,
-  localId: number
-) => {
+export async function getPersonalBookDetails(userId: number, localId: number) {
   return await prisma.personalBook.findUnique({
     where: {
       id: localId,
@@ -97,13 +94,13 @@ export const getPersonalBookDetails = async (
       updatedAt: true,
     },
   });
-};
+}
 
-export const updateBookNotes = async (
+export async function updateBookNotes(
   userId: number,
   localId: number,
   notes: string
-) => {
+) {
   return await prisma.personalBook.update({
     where: {
       id: localId,
@@ -119,13 +116,13 @@ export const updateBookNotes = async (
       updatedAt: true,
     },
   });
-};
+}
 
-export const deletePersonalBook = async (userId: number, localId: number) => {
+export async function deletePersonalBook(userId: number, localId: number) {
   return await prisma.personalBook.delete({
     where: {
       id: localId,
       userId,
     },
   });
-};
+}

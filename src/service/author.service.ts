@@ -7,7 +7,7 @@ interface AuthorData {
   country?: string;
 }
 
-export const createAuthor = async (data: AuthorData) => {
+export async function createAuthor(data: AuthorData) {
   return await prisma.author.create({
     data,
     select: {
@@ -17,9 +17,9 @@ export const createAuthor = async (data: AuthorData) => {
       createdAt: true,
     },
   });
-};
+}
 
-export const getAllAuthors = async () => {
+export async function getAllAuthors() {
   return await prisma.author.findMany({
     select: {
       id: true,
@@ -30,9 +30,9 @@ export const getAllAuthors = async () => {
       name: "asc",
     },
   });
-};
+}
 
-export const getAuthorById = async (id: number) => {
+export async function getAuthorById(id: number) {
   return await prisma.author.findUnique({
     where: { id },
     select: {
@@ -43,4 +43,4 @@ export const getAuthorById = async (id: number) => {
       updatedAt: true,
     },
   });
-};
+}

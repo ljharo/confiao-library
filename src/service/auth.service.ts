@@ -2,11 +2,11 @@ import bcrypt from "bcryptjs";
 import prisma from "../config/prisma";
 import { generateToken } from "../utils/jwt";
 
-export const registerUser = async (
+export async function registerUser(
   email: string,
   password: string,
   name?: string
-) => {
+) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
@@ -20,9 +20,9 @@ export const registerUser = async (
   const token = generateToken({ userId: user.id });
 
   return { user, token };
-};
+}
 
-export const loginUser = async (email: string, password: string) => {
+export async function loginUser(email: string, password: string) {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
@@ -38,8 +38,8 @@ export const loginUser = async (email: string, password: string) => {
   const token = generateToken({ userId: user.id });
 
   return { user, token };
-};
+}
 
-export const logoutUser = async (token: string) => {
+export async function logoutUser(token: string) {
   return { success: true };
-};
+}
