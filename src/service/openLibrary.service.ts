@@ -10,7 +10,7 @@ interface Book {
 
 interface BookMetadata {
   title: string;
-  authors?: string[];
+  authors?: string;
   publishYear?: number;
   coverUrl?: string;
 }
@@ -47,10 +47,33 @@ export async function getBookMetadata(
     const data = response.data;
     const coverId = data.covers?.[0];
 
+    // Obtener información de autores (versión corregida)
+    let authors = "Unknown author";
+    if (data.authors && data.authors.length > 0) {
+      const authorRequests = data.authors.map(async (author: any) => {
+        try {
+          const path = author.author?.key;
+          if (!path) return "Unknown author";
+
+          const response = await axios.get(
+            `https://openlibrary.org${path}.json`
+          );
+          return response.data.name || "Unknown author";
+        } catch (error) {
+          console.error("Error fetching author details:", error);
+          return "Unknown author";
+        }
+      });
+
+      // Esperar a que todas las solicitudes de autores se completen
+      const authorNames = await Promise.all(authorRequests);
+      authors = authorNames.join(", ");
+    }
+
     return {
-      title: data.title,
-      authors: data.authors?.map((a: any) => a.author?.key),
-      publishYear: data.first_publish_year,
+      title: data.title || "No title available",
+      authors,
+      publishYear: data.first_publish_year || undefined,
       coverUrl: coverId
         ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
         : undefined,

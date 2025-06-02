@@ -16,7 +16,6 @@ export async function addBookToLibrary({
   price,
   notes,
 }: AddBookParams) {
-  // Verificar si el libro ya existe
   const existingBook = await prisma.personalBook.findFirst({
     where: {
       userId,
@@ -25,7 +24,13 @@ export async function addBookToLibrary({
   });
 
   if (existingBook) {
-    throw { code: "P2002", message: "Book already exists in your library" };
+    throw { message: "Book already exists in your library" };
+  }
+
+  if (!price) {
+    throw { message: "Price is required" };
+  } else if (price <= 0) {
+    throw { message: "Price must be greater than 0" };
   }
 
   // Obtener metadatos del libro
@@ -37,7 +42,7 @@ export async function addBookToLibrary({
       userId,
       openLibraryId,
       title: metadata.title,
-      author: metadata.authors?.join(", "),
+      author: metadata.authors,
       publishYear: metadata.publishYear,
       price,
       notes,

@@ -29,7 +29,32 @@
 									"    \r",
 									"} else {\r",
 									"    console.log(\"Respuesta no exitosa:\", pm.response.text());\r",
-									"}"
+									"}\r",
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>Token</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    <tr>\r",
+									"        <td>{{response.token}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return {response: pm.response.json()}\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -41,7 +66,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\"\r\n}",
+							"raw": "{\r\n  \"email\": \"user55@example.com\",\r\n  \"password\": \"password123\",\r\n  \"name\": \"John Doe\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -57,7 +82,8 @@
 								"auth",
 								"register"
 							]
-						}
+						},
+						"description": "# Register User\n\nThis endpoint allows the client to register a new user by providing the user's email, password, and name.\n\n## Request Body\n\n- `email` (string): The email address of the user.\n    \n- `password` (string): The password for the user account.\n    \n- `name` (string): The name of the user.\n    \n\n## Response\n\nThe response will be a JSON object with the following properties:\n\n- success (boolean)\n    \n- data (object)\n    \n    - user (object)\n        \n        - id (number): The unique identifier of the user.\n            \n        - email (string): The email address of the user.\n            \n        - name (string): The name of the user.\n            \n    - token (string): The authentication token for the user.\n        \n\nExample Response:\n\n``` json\n{\n    \"success\": true,\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"email\": \"name@email.com\",\n            \"name\": \"name\"\n        },\n        \"token\": \"xxxxxxxxxxxx\"\n    }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -109,7 +135,8 @@
 								"auth",
 								"login"
 							]
-						}
+						},
+						"description": "### API Request Description\n\nThis endpoint allows users to authenticate and obtain a token for accessing protected resources. The request should be made using the HTTP POST method to the specified URL.\n\n#### Request Body\n\n- email (text, required): The email address of the user.\n    \n- password (text, required): The password for the user's account.\n    \n\n### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n    \"success\": boolean,\n    \"data\": {\n        \"user\": {\n            \"id\": integer,\n            \"email\": string,\n            \"name\": string\n        },\n        \"token\": string\n    }\n}\n\n ```\n\nThe response will include a boolean \"success\" flag indicating the outcome of the request. If successful, it will also contain the user's information including their ID, email, and name, along with an authentication token."
 					},
 					"response": []
 				},
@@ -137,7 +164,8 @@
 								"auth",
 								"logout"
 							]
-						}
+						},
+						"description": "### POST /api/auth/logout\n\nThis endpoint is used to log out the user and invalidate the current session.\n\n#### Request Body\n\n- No request body required.\n    \n\n#### Response\n\nThe response is in JSON format and has the following schema:\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"success\": true\n  }\n}\n\n ```\n\nThe `success` key indicates whether the logout operation was successful. The `data` object contains additional information about the operation, with its own `success` key."
 					},
 					"response": []
 				}
@@ -149,6 +177,16 @@
 				{
 					"name": "search",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -164,10 +202,11 @@
 							"variable": [
 								{
 									"key": "query",
-									"value": "harry potter"
+									"value": "dune"
 								}
 							]
-						}
+						},
+						"description": "# Book Search\n\nThis endpoint allows you to search for books based on a specific query.\n\n## Request\n\n### Path Parameters\n\n- `query`: The search query for the books.\n    \n\n### Example\n\n```\n{{LOCALHOST}}api/books/search/science\n\n ```\n\n## Response\n\n- `success`: A boolean indicating if the request was successful.\n    \n- `count`: The number of books found based on the search query.\n    \n- `data`: An array of book objects containing the following details:\n    \n    - `title`: The title of the book.\n        \n    - `author_name`: An array of author names.\n        \n    - `first_publish_year`: The year the book was first published.\n        \n    - `openLibraryId`: The unique identifier for the book in the Open Library database.\n        \n    - `cover_url`: The URL for the cover image of the book.\n        \n\n### Example Response\n\n``` json\n{\n  \"success\": true,\n  \"count\": 0,\n  \"data\": [\n    {\n      \"title\": \"\",\n      \"author_name\": [\"\"],\n      \"first_publish_year\": 0,\n      \"openLibraryId\": \"\",\n      \"cover_url\": \"\"\n    }\n  ]\n}\n\n ```"
 					},
 					"response": []
 				}
@@ -193,7 +232,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"openLibraryId\": \"OL82560W\",\r\n  \"price\": 25.5,\r\n  \"notes\": \"Un clásico de la fantasía moderna\"\r\n}",
+							"raw": "{\r\n  \"openLibraryId\": \"OL893415W\",\r\n  \"price\": 55,\r\n  \"notes\": \"el padre de la ciencia ficción\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -237,7 +276,8 @@
 								"my-library",
 								"books"
 							]
-						}
+						},
+						"description": "### Retrieve Books from Library\n\nThis endpoint retrieves a list of books from the library.\n\n#### Request\n\n- Method: GET\n    \n- URL: {{LOCALHOST}}api/my-library/books\n    \n\n#### Response\n\n- Status: 200\n    \n- Content-Type: application/json\n    \n\n##### Response Body\n\nThe response will contain a JSON object with the following fields:\n\n- `success` (boolean): Indicates if the request was successful.\n    \n- `count` (integer): The number of books returned.\n    \n- `data` (array): An array of book objects, each containing the following fields:\n    \n    - `id` (integer): The unique identifier of the book.\n        \n    - `openLibraryId` (string): The Open Library identifier of the book.\n        \n    - `title` (string): The title of the book.\n        \n    - `author` (string): The author of the book.\n        \n    - `publishYear` (integer): The year the book was published.\n        \n    - `coverUrl` (string): The URL of the book's cover image.\n        \n    - `createdAt` (string): The timestamp of when the book record was created."
 					},
 					"response": []
 				},
@@ -269,10 +309,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "5"
 								}
 							]
-						}
+						},
+						"description": "This API endpoint retrieves information about a specific book from the library.\n\n### Request\n\n- Method: GET\n    \n- URL: {{LOCALHOST}}api/my-library/books/:id\n    \n\n### Response\n\n- Status: 200\n    \n- Content-Type: application/json\n    \n- { \"success\": true, \"data\": { \"id\": 0, \"openLibraryId\": \"\", \"title\": \"\", \"author\": \"\", \"publishYear\": null, \"price\": 0, \"notes\": \"\", \"coverUrl\": \"\", \"createdAt\": \"\", \"updatedAt\": \"\" } }  \n    The response body contains the details of the book including its ID, openLibraryId, title, author, publish year, price, notes, cover URL, creation timestamp, and last update timestamp."
 					},
 					"response": []
 				},
@@ -293,7 +334,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"notes\": \"odio esta mierda\"\r\n}",
+							"raw": "{\r\n  \"notes\": \"el mejor libro que he leido\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -313,10 +354,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "5"
 								}
 							]
-						}
+						},
+						"description": "This endpoint allows the user to update the notes for a specific book in the library.\n\n### Request Body\n\n- notes (text): The new notes to be updated for the book.\n    \n\n### Response\n\nThe response is in JSON format and follows the schema below:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"success\": {\n            \"type\": \"boolean\"\n        },\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"integer\"\n                },\n                \"title\": {\n                    \"type\": \"string\"\n                },\n                \"notes\": {\n                    \"type\": \"string\"\n                },\n                \"updatedAt\": {\n                    \"type\": \"string\",\n                    \"format\": \"date-time\"\n                }\n            }\n        }\n    }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -348,10 +390,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "5"
 								}
 							]
-						}
+						},
+						"description": "This endpoint is used to delete a specific book from the library by providing the book's ID in the URL.\n\n### Response\n\nUpon a successful deletion, the server returns a 204 status code with no content in the response body.\n\n``` json\n{}\n\n ```"
 					},
 					"response": []
 				}
@@ -377,7 +420,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n{\r\n  \"name\": \"Stephen King\",\r\n  \"country\": \"USA\"\r\n}",
+							"raw": "\r\n{\r\n  \"name\": \"john Dou\",\r\n  \"country\": \"ESP\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -392,7 +435,8 @@
 							"path": [
 								"authors"
 							]
-						}
+						},
+						"description": "## POST /api/authors\n\nThis endpoint is used to create a new author.\n\n### Request Body\n\n- **name** (string, required): The name of the author.\n    \n- **country** (string, required): The country of the author.\n    \n\n### Response\n\nThe response is in JSON format and has the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"success\": {\n      \"type\": \"boolean\"\n    },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": {\n          \"type\": \"integer\"\n        },\n        \"name\": {\n          \"type\": \"string\"\n        },\n        \"country\": {\n          \"type\": \"string\"\n        },\n        \"createdAt\": {\n          \"type\": \"string\"\n        }\n      }\n    }\n  }\n}\n\n ```\n\nThe response will have a status code of 201 (Created) upon successful creation of the author."
 					},
 					"response": []
 				},
@@ -419,7 +463,8 @@
 							"path": [
 								"authors"
 							]
-						}
+						},
+						"description": "### GET /api/authors\n\nThis endpoint retrieves a list of authors.\n\n#### Request\n\nNo request body is required for this endpoint.\n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"success\": {\n      \"type\": \"boolean\"\n    },\n    \"count\": {\n      \"type\": \"integer\"\n    },\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"id\": {\n            \"type\": \"integer\"\n          },\n          \"name\": {\n            \"type\": \"string\"\n          },\n          \"country\": {\n            \"type\": \"string\"\n          }\n        }\n      }\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -450,10 +495,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "2"
 								}
 							]
-						}
+						},
+						"description": "The endpoint retrieves the details of an author based on the provided ID.\n\nThe response of this request can be documented as a JSON schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"success\": {\n            \"type\": \"boolean\"\n        },\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"integer\"\n                },\n                \"name\": {\n                    \"type\": \"string\"\n                },\n                \"country\": {\n                    \"type\": \"string\"\n                },\n                \"createdAt\": {\n                    \"type\": \"string\"\n                },\n                \"updatedAt\": {\n                    \"type\": \"string\"\n                }\n            }\n        }\n    }\n}\n}\n\n ```"
 					},
 					"response": []
 				}
@@ -479,7 +525,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"numberOfInstallments\": 3\r\n}",
+							"raw": "{\r\n  \"numberOfInstallments\": 5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -500,10 +546,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "3"
+									"value": "6"
 								}
 							]
-						}
+						},
+						"description": "### Add Installments to Book\n\nThis endpoint allows you to add installments to a specific book in the library.\n\n#### Request Body\n\n- `numberOfInstallments` (number) - The number of installments to be added to the book.\n    \n\n#### Response\n\nUpon successful addition of installments, the API returns a 201 status code with the following JSON response:\n\n``` json\n{\n    \"success\": true,\n    \"data\": {\n        \"id\": 0,\n        \"title\": \"\",\n        \"price\": 0,\n        \"numberOfInstallments\": 0,\n        \"installmentAmount\": 0,\n        \"installments\": [\n            {\n                \"amount\": 0,\n                \"number\": 0,\n                \"status\": \"\",\n                \"dueDate\": \"\"\n            }\n        ]\n    }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -536,10 +583,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "3"
+									"value": "6"
 								}
 							]
-						}
+						},
+						"description": "This endpoint retrieves the installments for a specific book in the library.\n\n### Request\n\n#### Request Parameters\n\n- `id` (path parameter) : The unique identifier of the book for which installments are to be retrieved.\n    \n\n#### Request Body\n\nThis request does not require a request body.\n\n### Response\n\n#### Response Body\n\nThe response contains the details of the installments for the specified book, including installment number, due date, amount, and status."
 					},
 					"response": []
 				}

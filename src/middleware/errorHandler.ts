@@ -35,7 +35,7 @@ export function errorHandler(
   console.error("==========================");
 
   res.status(500).json({
-    error: "Something went wrong!",
+    error: err.message,
     // Opcional: enviar solo en desarrollo
     ...(process.env.NODE_ENV === "development" && {
       details: err.message,
