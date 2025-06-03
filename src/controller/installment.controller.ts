@@ -4,7 +4,17 @@ import {
   getInstallmentPlan,
 } from "../service/installment.service";
 
+/**
+ * InstallmentController handles requests related to book installments.
+ */
 export class InstallmentController {
+  /**
+   * Creates a payment installment plan for a specific book.
+   *
+   * @param req - The request object containing user ID and book ID in the parameters, and the number of installments in the body.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async createBookInstallments(
     req: Request,
     res: Response
@@ -55,6 +65,13 @@ export class InstallmentController {
     }
   }
 
+  /**
+   * Retrieves the installment plan for a specific book.
+   *
+   * @param req - The request object containing user ID and book ID in the parameters.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async getBookInstallments(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as any).user.userId;

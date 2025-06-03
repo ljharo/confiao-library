@@ -1,7 +1,14 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import prisma from "../config/prisma";
 
-const prisma = new PrismaClient();
-
+/**
+ * Represents an installment in a payment plan.
+ * @interface InstallmentPlan
+ * @property {number} number - Installment sequence number (1-based index).
+ * @property {number} amount - Payment amount for this installment.
+ * @property {"pending" | "paid" | "overdue"} status - Current status of the installment.
+ * @property {string} [dueDate] - Optional due date in ISO string format.
+ */
 interface InstallmentPlan {
   number: number;
   amount: number;
@@ -9,6 +16,27 @@ interface InstallmentPlan {
   dueDate?: string;
 }
 
+/**
+ * Creates an installment payment plan for a personal book.
+ * @async
+ * @param {number} bookId - ID of the personal book.
+ * @param {number} userId - ID of the user who owns the book.
+ * @param {number} numberOfInstallments - Number of installments to create (minimum 1).
+ * @returns {Promise<{
+ *   id: number,
+ *   title: string,
+ *   price: number,
+ *   numberOfInstallments: number,
+ *   installmentAmount: number,
+ *   installments: InstallmentPlan[]
+ * }>} Updated book data with installment plan details.
+ * @throws {Error} If:
+ * - Book is not found in user's library
+ * - Book price is not set
+ * - Number of installments is less than 1
+ * @example
+ * await createInstallmentPlan(123, 456, 3); // Creates 3 monthly installments
+ */
 export async function createInstallmentPlan(
   bookId: number,
   userId: number,
@@ -72,6 +100,24 @@ export async function createInstallmentPlan(
   });
 }
 
+/**
+ * Retrieves the installment plan for a personal book.
+ * @async
+ * @param {number} bookId - ID of the personal book.
+ * @param {number} userId - ID of the user who owns the book.
+ * @returns {Promise<{
+ *   title: string,
+ *   price: number,
+ *   numberOfInstallments: number,
+ *   installmentAmount: number,
+ *   installments: InstallmentPlan[]
+ * }>} The book's installment plan details.
+ * @throws {Error} If:
+ * - Book is not found in user's library
+ * - Installment plan doesn't exist for this book
+ * @example
+ * await getInstallmentPlan(123, 456); // Returns existing installment plan
+ */
 export async function getInstallmentPlan(bookId: number, userId: number) {
   const book = await prisma.personalBook.findUnique({
     where: {

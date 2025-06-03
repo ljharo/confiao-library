@@ -1,5 +1,15 @@
 import axios from "axios";
 
+/**
+ * Represents a book from Open Library search results.
+ * @interface Book
+ * @property {string} title - The title of the book.
+ * @property {string[]} [author_name] - Optional array of author names.
+ * @property {number} [first_publish_year] - Optional year of first publication.
+ * @property {number} [cover_i] - Optional cover image ID.
+ * @property {string} openLibraryId - The unique identifier from Open Library (without '/works/' prefix).
+ * @property {string|null} cover_url - URL to medium-sized cover image or null if not available.
+ */
 interface Book {
   title: string;
   author_name?: string[];
@@ -8,6 +18,14 @@ interface Book {
   openLibraryId: string;
 }
 
+/**
+ * Represents detailed metadata for a book.
+ * @interface BookMetadata
+ * @property {string} title - The title of the book.
+ * @property {string} [authors] - Comma-separated list of authors or "Unknown author".
+ * @property {number} [publishYear] - Year of first publication if available.
+ * @property {string} [coverUrl] - URL to medium-sized cover image if available.
+ */
 interface BookMetadata {
   title: string;
   authors?: string;
@@ -15,6 +33,16 @@ interface BookMetadata {
   coverUrl?: string;
 }
 
+/**
+ * Searches for books in Open Library by query.
+ * @async
+ * @param {string} query - Search term (title, author, etc.).
+ * @returns {Promise<Book[]>} Array of book objects from search results.
+ * @throws {Error} If the API request fails.
+ * @example
+ * const results = await searchBooks("harry potter");
+ * // Returns array of Book objects matching the query
+ */
 export async function searchBooks(query: string): Promise<Book[]> {
   try {
     const response = await axios.get(
@@ -36,6 +64,16 @@ export async function searchBooks(query: string): Promise<Book[]> {
   }
 }
 
+/**
+ * Fetches detailed metadata for a specific book from Open Library.
+ * @async
+ * @param {string} openLibraryId - The book's Open Library ID (without '/works/' prefix).
+ * @returns {Promise<BookMetadata>} Detailed book metadata.
+ * @throws {Error} If the API request fails.
+ * @example
+ * const metadata = await getBookMetadata("OL123W");
+ * // Returns detailed metadata including author names and cover URL
+ */
 export async function getBookMetadata(
   openLibraryId: string
 ): Promise<BookMetadata> {

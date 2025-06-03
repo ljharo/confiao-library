@@ -7,6 +7,9 @@ import {
   deletePersonalBook,
 } from "../service/personalLibrary.service";
 
+/**
+ * PersonalLibraryController handles requests related to a user's personal library of books.
+ */
 export class PersonalLibraryController {
   public async addBook(
     req: Request,
@@ -41,6 +44,14 @@ export class PersonalLibraryController {
     }
   }
 
+  /**
+   * Adds a new book to the user's personal library.
+   *
+   * @param req - The request object containing user ID and book details in the body.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @param next - The next middleware function in the stack.
+   * @returns A promise that resolves to void.
+   */
   public async getBooks(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as any).user.userId;
@@ -59,6 +70,13 @@ export class PersonalLibraryController {
     }
   }
 
+  /**
+   * Retrieves details of a specific book from the user's personal library.
+   *
+   * @param req - The request object containing user ID and book ID in the parameters.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async getBookDetails(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as any).user.userId;
@@ -94,6 +112,13 @@ export class PersonalLibraryController {
     }
   }
 
+  /**
+   * Updates the notes for a specific book in the user's personal library.
+   *
+   * @param req - The request object containing user ID and book ID in the parameters, and the new notes in the body.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async updateNotes(req: Request, res: Response): Promise<void> {
     try {
       const userId = (req as any).user.userId;
@@ -137,6 +162,13 @@ export class PersonalLibraryController {
     }
   }
 
+  /**
+   * Deletes a specific book from the user's personal library.
+   *
+   * @param req - The request object containing user ID and book ID in the parameters.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async deleteBook(
     req: Request<{ localId: string }>,
     res: Response

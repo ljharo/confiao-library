@@ -28,7 +28,7 @@ Confiao Library es una API RESTful desarrollada con Node.js, Express y Prisma qu
 
 - Autenticación: JWT
 
-- Documentación: OpenAPI/Swagger (pendiente)
+- Deploy: Docker
 
 ## Requisitos del Sistema
 
@@ -37,6 +37,8 @@ Confiao Library es una API RESTful desarrollada con Node.js, Express y Prisma qu
 - PostgreSQL v15+
 
 - npm v8+
+
+- Docker v20+
 
 ## Configuración Inicial
 
@@ -78,21 +80,27 @@ Estructura del Proyecto
 confiao-library/
 ├── prisma/
 │ └── schema.prisma # Esquema de la base de datos
+│
 ├── qa/ # Archivos para probar las apis en postman
 │ └── confiao-library-env.postman_environment.json
 │ └── confiao-library.postman_environment.json
+│
 ├── src/
 │ ├── config/ # Configuraciones
 │ ├── controllers/ # Controladores
-│ ├── errors/ # Errores personalizados
 │ ├── middlewares/ # Middlewares
 │ ├── routes/ # Rutas
 │ ├── services/ # Lógica de negocio
 │ ├── utils/ # Utilidades
 │ ├── app.ts # Configuración de Express
 │ └── server.ts # Inicio del servidor
+│
 ├── .env.example # Ejemplo de variables de entorno
-└── package.json
+├──  package.json
+├──  docker-compose.yml
+└──  Dockerfile
+
+
 ```
 
 ## Endpoints Principales
@@ -228,7 +236,7 @@ Authorization: Bearer jwt-token
 
 ## Autores
 
-- POST /api/my-library/authors - Añadir autor
+- POST /api/authors - Añadir autor
 
 ```bash
 POST /api/authors HTTP/1.1
@@ -244,7 +252,7 @@ Content-Length: 49
 }
 ```
 
-- GET /api/my-library/authors - Obtener todos los autores
+- GET /api/authors - Obtener todos los autores
 
 ```bash
 GET /api/authors HTTP/1.1
@@ -252,7 +260,7 @@ Host: localhost:3001
 Authorization: Bearer jwt-token
 ```
 
-- GET /api/my-library/authors/:id - Obtener autor específico
+- GET /api/authors/:id - Obtener autor específico
 
 ```bash
 GET /api/authors/2 HTTP/1.1

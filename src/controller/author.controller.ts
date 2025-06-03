@@ -5,7 +5,17 @@ import {
   getAuthorById,
 } from "../service/author.service";
 
+/**
+ * AuthorController handles requests related to authors.
+ */
 export class AuthorController {
+  /**
+   * Adds a new author to the database.
+   *
+   * @param req - The request object containing author details in the body.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async addAuthor(req: Request, res: Response): Promise<void> {
     try {
       const { name, country } = req.body;
@@ -39,6 +49,13 @@ export class AuthorController {
     }
   }
 
+  /**
+   * Retrieves all authors from the database.
+   *
+   * @param req - The request object.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async getAuthors(req: Request, res: Response): Promise<void> {
     try {
       const authors = await getAllAuthors();
@@ -56,6 +73,13 @@ export class AuthorController {
     }
   }
 
+  /**
+   * Retrieves a specific author by their ID.
+   *
+   * @param req - The request object containing the author ID in the parameters.
+   * @param res - The response object used to send back the desired HTTP response.
+   * @returns A promise that resolves to void.
+   */
   public async getAuthor(
     req: Request<{ localId: string }>,
     res: Response
