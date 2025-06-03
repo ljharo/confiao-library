@@ -26,7 +26,6 @@ model PersonalBook {
   title         String
   coverUrl     String?
   author        String?
-  publishYear   Int?
   notes         String?
   price         Float?
   numberOfInstallments Int?

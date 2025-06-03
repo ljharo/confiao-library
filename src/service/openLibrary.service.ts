@@ -29,7 +29,6 @@ interface Book {
 interface BookMetadata {
   title: string;
   authors?: string;
-  publishYear?: number;
   coverUrl?: string;
 }
 
@@ -111,7 +110,6 @@ export async function getBookMetadata(
     return {
       title: data.title || "No title available",
       authors,
-      publishYear: data.first_publish_year || undefined,
       coverUrl: coverId
         ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
         : undefined,

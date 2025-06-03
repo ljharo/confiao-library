@@ -62,6 +62,8 @@ export async function createInstallmentPlan(
 
   if (numberOfInstallments < 1) {
     throw new Error("Number of installments must be at least 1");
+  } else if (!Number.isInteger(numberOfInstallments)) {
+    throw new Error("Number of installments must be an integer");
   }
 
   const installmentAmount = book.price / numberOfInstallments;
