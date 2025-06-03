@@ -149,11 +149,16 @@ la adquisición de libros.
   - _Nota:_ No se implementa la lógica de pagos reales ni se manejan
     múltiples estados complejos.
 
+  status: listo
+
 - **Consultar el Plan de Cuotas de un Libro**
   **Ruta:** `GET /api/my-library/books/:localId/installments`
   **Descripción:**
+
   - Devuelve el plan de cuotas: número de cuotas y el monto de cada
     cuota.
+
+  status: listo
 
 ---
 
